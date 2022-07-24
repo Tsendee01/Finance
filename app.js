@@ -7,7 +7,11 @@ var uiController = (function(){
         inputValue: ".add__value",
         addBtn: ".add__btn",
         incomeList: ".income__list",
-        expensesList: ".expenses__list "
+        expensesList: ".expenses__list ",
+        tusuLabel: ".budget__value",
+        incomeLabel: ".budget__income--value",
+        expeseLabel: ".budget__expenses--value",
+        percentageLabel: ".budget__expenses--percentage"
     };
 
     return{
@@ -37,6 +41,18 @@ var uiController = (function(){
             // }
 
             fieldsArr[0].focus();
+        },
+
+        tusuvUzuuleh: function(tusuv){
+            document.querySelector(DOMStrings.tusuLabel).textContent = tusuv.tusuv;
+            document.querySelector(DOMStrings.incomeLabel).textContent = tusuv.totalInc;
+            document.querySelector(DOMStrings.expeseLabel).textContent = tusuv.totalExp;
+            if(tusuv.huvi !== 0)
+            {
+                document.querySelector(DOMStrings.percentageLabel).textContent = tusuv.huvi +'%';
+            }else{
+                document.querySelector(DOMStrings.percentageLabel).textContent = tusuv.huvi;
+            }
         },
 
         addListItem: function(item, type){
@@ -173,8 +189,8 @@ var appController = (function(uiController, financeController){
             //5.Эцсийн үлдэгдэл, тооцоог дэлгэцэнд гаргана.
             var tusuv = financeController.tusviigAvah();
 
-            //Төсөвийн тооцоог дэлгэцэнд гаргана.
-
+            //6.Төсөвийн тооцоог дэлгэцэнд гаргана.
+            uiController.tusuvUzuuleh(tusuv);
 
         }
         
@@ -199,6 +215,12 @@ var appController = (function(uiController, financeController){
    return{
     init: function(){
         console.log("Application started...");
+        uiController.tusuvUzuuleh({
+            tusuv: 0,
+            huvi: 0,
+            totalInc: 0,
+            totalExp: 0
+        })
         setupEventListeners();
     }
    };
